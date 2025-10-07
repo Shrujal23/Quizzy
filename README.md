@@ -1,0 +1,2 @@
+# Quizzy
+A quiz app
