@@ -1,122 +1,64 @@
-# Quizzy — Computer Science Quiz App
+# Quizzy — Quiz App
 
-A modern, polished quiz application built with React. Designed for fast, focused quizzes that are ideal for learning, practice, and showcasing in a frontend portfolio.
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 ---
 
-## What I built
+A modern, polished quiz application built with React, designed for fast, focused quizzes — ideal for learning, practice, and showcasing in a frontend portfolio.
 
-Quizzy is a single-page React application that fetches multiple-choice trivia questions and presents a clean, mobile-friendly quiz experience. Features include a category selector, difficulty levels, lifelines (50/50, skip, hint), scoring & achievements, and a leaderboard stored locally for quick demos.
+---
 
-This project highlights UI/UX attention to detail (typography, micro-interactions, accessible color contrast), component-driven development, and deployment-ready configuration — good material to include on a resume or portfolio.
+## What I Built
+
+**Quizzy** is a single-page React app that fetches multiple-choice trivia questions and provides a clean, mobile-friendly quiz experience. Key features include:
+
+- Category selector and difficulty levels  
+- Lifelines: 50/50, skip, hint  
+- Per-question timer and scoring system  
+- Achievements and local leaderboard for quick demos  
+- Accessibility improvements: keyboard navigation, focus states, and Dark Mode toggle  
+
+This project highlights **UI/UX attention to detail**, **component-driven development**, and **deployment-ready configuration** — perfect for your portfolio or resume.
 
 ---
 
 ## Demo & Screenshots
 
-- Live demo: (add your deployed URL here)
-- Screenshots: add images to `public/screenshots/` and reference them here for the README.
+- **Live Demo:** (add your deployed URL here)  
+- **Screenshots:** Add images to `public/screenshots/` and reference them here.
 
 ---
 
 ## Key Features
 
-- Clean, responsive UI with improved typography and animations
-- Multiple categories & difficulty settings
-- Real-time question fetching with local fallbacks
-- Lifelines and per-question timer
-- Scorecard with achievements and social sharing
-- Local leaderboard and basic user profile tracking
-- Accessibility improvements: keyboard navigation, focus states, ARIA announcements, and a Dark Mode toggle
+- Clean, responsive UI with refined typography and subtle animations  
+- Multiple categories & difficulty settings  
+- Real-time question fetching with local fallbacks  
+- Lifelines and per-question timer  
+- Scorecard with achievements  
+- Local leaderboard and basic user profile tracking  
+- Dark Mode toggle for accessibility
 
 ---
 
 ## Tech Stack
 
-- React (functional components + hooks)
-- Bootstrap utility classes and custom CSS for polish
-- Open Trivia Database (opentdb.com)
-- Deployed-ready (Vercel/Netlify friendly)
+- **Frontend:** React (functional components + hooks)  
+- **Styling:** Bootstrap utility classes + custom CSS  
+- **Data Source:** Open Trivia Database (opentdb.com)  
+- **Deployment:** Vercel/Netlify ready  
 
 ---
 
 ## Running Locally
 
-1. Clone the repo and install:
-
 ```bash
 git clone <repository-url>
 cd quiz
 npm install
-```
-
-1. Start in development mode:
-
-```bash
 npm start
-```
-
-1. Build for production:
-
-```bash
 npm run build
-```
-
----
-
-## Accessibility & Testing
-
-- ARIA live regions announce results to assistive tech
-- Focus-visible styles and keyboard-friendly controls
-- (Planned) Unit tests using React Testing Library
-
----
-
-## Storybook (Component Docs)
-
-This project includes Storybook stories for core components to showcase states and aid UI review.
-
-To get Storybook running locally:
-
-1. Install Storybook (this will add the required dev dependencies):
-
-```bash
-npx sb init
-```
-
-1. Start Storybook:
-
-```bash
-npm run storybook
-```
-
-Stories are located in `src/stories/` and include:
-
-- `QuestionCard.stories.js`
-- `ScoreCard.stories.js`
-- `CategorySelection.stories.js`
-
----
-
-## Deployment
-
-This repo is ready for deployment on Vercel or Netlify. After connecting your repository, ensure `npm run build` succeeds and set the build output directory to `build/`.
-
----
-
-## Improvements I made (ideal resume bullets)
-
-- Implemented a consistent design system with CSS variables for colors, spacing, and motion
-- Added a professional font (Inter) and refined typographic scale for better hierarchy
-- Improved accessibility: color contrast, focus states, ARIA announcements, and keyboard navigation
-- Polished key interactions (animated card lift, subtle button transitions, progress/score visuals)
-
----
-
-## License
-
-MIT — feel free to use or adapt for demos and portfolios.
-
----
-
-If you'd like, I can add screenshots, a short GitHub Actions workflow for CI, or prepare a one-click deploy setup (Vercel). Which would you like me to do next?
