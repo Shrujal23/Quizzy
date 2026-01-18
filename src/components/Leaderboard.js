@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaTrophy } from 'react-icons/fa';
 
 const Leaderboard = ({ onBack }) => {
   const [leaderboardData, setLeaderboardData] = useState([]);
@@ -36,8 +37,10 @@ const Leaderboard = ({ onBack }) => {
         <button className="btn btn-outline-secondary" onClick={onBack}>
           ← Back to Categories
         </button>
-        <h2 className="mb-0">🏆 Leaderboard</h2>
-        <div style={{ width: '100px' }}></div>
+        <h2 className="text-center mb-0">
+          <FaTrophy size={24} className="text-primary me-2" />
+          Leaderboard
+        </h2>
       </div>
 
       <div className="mb-4">
@@ -60,16 +63,16 @@ const Leaderboard = ({ onBack }) => {
           <p className="text-muted">Be the first to set a record.</p>
         </div>
       ) : (
-        <div className="row g-3">
+        <div className="row gx-3 gy-4">
           {sortedData.map((entry, index) => (
-            <div key={`${entry.username}-${entry.date}-${index}`} className="col-12">
-              <div className="card">
-                <div className="card-body d-flex justify-content-between align-items-center">
+            <div key={`${entry.username}-${entry.date}-${index}`} className="col-12 col-md-6 col-lg-4">
+              <div className="card leaderboard-card card-entrance">
+                <div className="card-body d-flex flex-column justify-content-between align-items-center">
                   <div className="d-flex align-items-center">
                     <div className={`badge ${index === 0 ? 'bg-warning' : index === 1 ? 'bg-secondary' : index === 2 ? 'bg-danger' : 'bg-light text-dark'} me-3 fs-5`}>
                       #{index + 1}
                     </div>
-                    <div>
+                    <div className="ms-3">
                       <h6 className="mb-0">{entry.username}</h6>
                       <small className="text-muted">{entry.category}</small>
                     </div>
@@ -86,7 +89,6 @@ const Leaderboard = ({ onBack }) => {
           ))}
         </div>
       )}
-
       <div className="text-center mt-4">
         <small className="text-muted">
           Scores are stored locally and reset when clearing browser data.
@@ -97,3 +99,4 @@ const Leaderboard = ({ onBack }) => {
 };
 
 export default Leaderboard;
+

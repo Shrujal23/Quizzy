@@ -100,105 +100,27 @@ const CategorySelection = ({ onCategorySelect, selectedDifficulty, onDifficultyS
     }
   ];
 
-  // Fallback questions for when API fails
-  const getFallbackQuestions = (categoryId) => {
-    const fallbackQuestions = {
-      'computer-science': [
-        {
-          question: "What does HTML stand for?",
-          options: ["Hypertext Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlink and Text Markup Language"],
-          correctAnswer: 0
-        },
-        {
-          question: "Which programming language is known as the 'language of the web'?",
-          options: ["Python", "JavaScript", "C++", "Java"],
-          correctAnswer: 1
-        },
-        {
-          question: "What does CSS stand for?",
-          options: ["Computer Style Sheets", "Cascading Style Sheets", "Creative Style Sheets", "Colorful Style Sheets"],
-          correctAnswer: 1
-        }
-      ],
-      'general-knowledge': [
-        {
-          question: "What is the capital of France?",
-          options: ["London", "Berlin", "Paris", "Madrid"],
-          correctAnswer: 2
-        },
-        {
-          question: "Which planet is known as the Red Planet?",
-          options: ["Venus", "Mars", "Jupiter", "Saturn"],
-          correctAnswer: 1
-        },
-        {
-          question: "What is the largest ocean on Earth?",
-          options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
-          correctAnswer: 3
-        }
-      ],
-      'history': [
-        {
-          question: "In which year did World War II end?",
-          options: ["1944", "1945", "1946", "1947"],
-          correctAnswer: 1
-        },
-        {
-          question: "Who was the first President of the United States?",
-          options: ["Thomas Jefferson", "John Adams", "George Washington", "Benjamin Franklin"],
-          correctAnswer: 2
-        }
-      ],
-      'science-nature': [
-        {
-          question: "What is the chemical symbol for water?",
-          options: ["Wa", "H2O", "Wo", "Hw"],
-          correctAnswer: 1
-        },
-        {
-          question: "How many bones are in the adult human body?",
-          options: ["206", "208", "210", "212"],
-          correctAnswer: 0
-        }
-      ],
-      'sports': [
-        {
-          question: "How many players are on a basketball team on the court at one time?",
-          options: ["4", "5", "6", "7"],
-          correctAnswer: 1
-        },
-        {
-          question: "In which sport would you perform a slam dunk?",
-          options: ["Tennis", "Basketball", "Volleyball", "Baseball"],
-          correctAnswer: 1
-        }
-      ],
-      'geography': [
-        {
-          question: "What is the longest river in the world?",
-          options: ["Amazon River", "Nile River", "Mississippi River", "Yangtze River"],
-          correctAnswer: 1
-        },
-        {
-          question: "Which continent is the largest by land area?",
-          options: ["Africa", "Asia", "North America", "Europe"],
-          correctAnswer: 1
-        }
-      ]
-    };
+  // Legacy: fallback questions were previously provided here. We now fetch live data and keep a small in-app fallback elsewhere if needed.
 
-    return fallbackQuestions[categoryId] || fallbackQuestions['general-knowledge'];
+  // helper to pick readable foreground based on hex color brightness
+  const isColorLight = (hex) => {
+    const c = hex.replace('#', '');
+    const r = parseInt(c.substring(0, 2), 16);
+    const g = parseInt(c.substring(2, 4), 16);
+    const b = parseInt(c.substring(4, 6), 16);
+    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+    return yiq > 180;
   };
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card shadow-lg" style={{ maxWidth: '900px', width: '100%' }}>
+      <div className="card shadow-lg card-max-900">
         <div className="card-body p-5">
           <div className="text-center mb-5">
-            <h1 className="card-title mb-3" style={{ color: '#2c3e50' }}>
+            <h1 className="card-title mb-3 start-title">
               Quizzy - Choose the Quiz Category
             </h1>
-            <p className="card-text" style={{ fontSize: '1.1rem', color: '#6c757d' }}>
+            <p className="card-text start-subtext">
               Select a category to start your quiz challenge!
             </p>
           </div>
@@ -211,9 +133,8 @@ const CategorySelection = ({ onCategorySelect, selectedDifficulty, onDifficultyS
                 <button
                   key={difficulty}
                   type="button"
-                  className={`btn ${selectedDifficulty === difficulty ? 'btn-primary' : 'btn-outline-primary'}`}
+                  className={`btn btn-cap ${selectedDifficulty === difficulty ? 'btn-primary' : 'btn-outline-primary'}`}
                   onClick={() => onDifficultySelect(difficulty)}
-                  style={{ textTransform: 'capitalize' }}
                 >
                   {difficulty}
                 </button>
@@ -222,58 +143,40 @@ const CategorySelection = ({ onCategorySelect, selectedDifficulty, onDifficultyS
           </div>
 
           <div className="row g-4">
-            {categories.map((category) => (
-              <div key={category.id} className="col-12 col-md-6 col-lg-4">
-                <div
-                  className="card h-100 category-card"
-                  style={{
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    border: '2px solid transparent'
-                  }}
-                  onClick={() => onCategorySelect(category)}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-5px)';
-                    e.currentTarget.style.borderColor = category.color;
-                    e.currentTarget.style.boxShadow = `0 8px 25px ${category.color}40`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.borderColor = 'transparent';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  <div className="card-body text-center p-4">
-                    <div
-                      className="mb-3"
-                      style={{
-                        fontSize: '3rem',
-                        filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.1))'
-                      }}
-                    >
-                      {category.icon}
+            {categories.map((category) => {
+              const fg = isColorLight(category.color) ? '#111827' : '#ffffff';
+              return (
+                <div key={category.id} className="col-12 col-md-6 col-lg-4">
+                  <div
+                    className="card h-100 category-card"
+                    style={{ '--card-color': category.color, '--card-foreground': fg }}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => onCategorySelect(category)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onCategorySelect(category); }}
+                    aria-label={`Start ${category.name} quiz`}
+                  >
+                    <div className="card-body text-center p-4">
+                      <div className="mb-3 category-icon">
+                        {category.icon}
+                      </div>
+                      <h5 className="card-title mb-2 category-title" style={{ color: 'var(--card-color)' }}>
+                        {category.name}
+                      </h5>
+                      <p className="card-text text-muted" style={{ fontSize: '0.9rem' }}>
+                        {category.description}
+                      </p>
+                      <button
+                        className="btn w-100 mt-3 category-start-btn"
+                        style={{ '--card-color': category.color, '--card-foreground': fg }}
+                      >
+                        Start Quiz →
+                      </button>
                     </div>
-                    <h5 className="card-title mb-2" style={{ color: category.color }}>
-                      {category.name}
-                    </h5>
-                    <p className="card-text text-muted" style={{ fontSize: '0.9rem' }}>
-                      {category.description}
-                    </p>
-                    <button
-                      className="btn w-100 mt-3"
-                      style={{
-                        backgroundColor: category.color,
-                        borderColor: category.color,
-                        color: 'white',
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Start Quiz →
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-center mt-4">
@@ -290,3 +193,5 @@ const CategorySelection = ({ onCategorySelect, selectedDifficulty, onDifficultyS
 };
 
 export default CategorySelection;
+
+

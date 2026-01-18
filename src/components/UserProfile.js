@@ -40,7 +40,7 @@ const UserProfile = ({ user, onLogin, onLogout, onBack }) => {
     // Login/Register screen
     return (
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
-        <div className="card shadow-lg" style={{ maxWidth: '400px', width: '100%' }}>
+        <div className="card shadow-lg user-card">
           <div className="card-body p-5">
             <div className="text-center mb-4">
               <h2 className="card-title">Welcome to Quizzy</h2>
@@ -156,7 +156,7 @@ const UserProfile = ({ user, onLogin, onLogout, onBack }) => {
                     <div key={index} className="col-md-6 col-lg-4">
                       <div className="card h-100 border-success">
                         <div className="card-body text-center">
-                          <div className="mb-2" style={{ fontSize: '2rem' }}>
+                          <div className="mb-2 achievement-icon">
                             {achievementInfo.icon}
                           </div>
                           <h6 className="card-title">{achievement}</h6>
@@ -194,3 +194,4 @@ const UserProfile = ({ user, onLogin, onLogout, onBack }) => {
 };
 
 export default UserProfile;
+

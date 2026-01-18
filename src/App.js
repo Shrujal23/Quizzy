@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import './QuizStyles.css';
+import { FaMoon, FaSun } from 'react-icons/fa';
 import CategorySelection from './components/CategorySelection';
 import QuizContainer from './components/QuizContainerNew';
 import UserProfile from './components/UserProfile';
@@ -12,6 +14,26 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showProfile, setShowProfile] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+
+  // Dark mode state (persisted)
+  const [darkMode, setDarkMode] = useState(() => {
+    try {
+      const saved = localStorage.getItem('quizzyTheme');
+      if (saved) return saved === 'dark';
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch (e) {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      document.documentElement.classList.toggle('dark', darkMode);
+      localStorage.setItem('quizzyTheme', darkMode ? 'dark' : 'light');
+    } catch (e) {
+      // ignore
+    }
+  }, [darkMode]);
 
   // Load user from localStorage on mount
   useEffect(() => {
@@ -29,6 +51,13 @@ function App() {
       localStorage.removeItem('quizzyUser');
     }
   }, [currentUser]);
+
+  // Listen for global UI events (e.g. quick open leaderboard from StartScreen)
+  useEffect(() => {
+    const showLeaderboardHandler = () => setShowLeaderboard(true);
+    window.addEventListener('showLeaderboard', showLeaderboardHandler);
+    return () => window.removeEventListener('showLeaderboard', showLeaderboardHandler);
+  }, []);
 
   const handleUserLogin = (userData) => {
     setCurrentUser(userData);
@@ -85,6 +114,21 @@ function App() {
 
   return (
     <div className="App">
+      <header className="app-header">
+        <div className="app-brand">Quizzy</div>
+        <div className="app-tagline">Sharpen your knowledge • Quick • Fun</div>
+        <div className="header-actions">
+          <button
+            className="btn btn-outline-primary btn-sm"
+            onClick={() => setDarkMode((d) => !d)}
+            aria-pressed={darkMode}
+            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={darkMode ? 'Light mode' : 'Dark mode'}
+          >
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+        </div>
+      </header>
       {!currentUser && (
         <UserProfile onLogin={handleUserLogin} />
       )}

@@ -340,7 +340,7 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
     return (
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
         <div className="text-center">
-          <div className="spinner-border text-primary mb-3" role="status" style={{ width: '3rem', height: '3rem' }}>
+          <div className="spinner-border text-primary mb-3 spinner-large" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
           <h4 className="text-muted">Loading {selectedCategory.name} Questions...</h4>
@@ -353,7 +353,7 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
   if (error) {
     return (
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
-        <div className="card shadow-lg" style={{ maxWidth: '500px', width: '100%' }}>
+        <div className="card shadow-lg card-max-500">
           <div className="card-body text-center p-5">
             <h4 className="card-title mb-3 text-danger">Error Loading Questions</h4>
             <p className="card-text mb-4 text-muted">{error}</p>
@@ -373,7 +373,7 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
   if (quizData.length === 0) {
     return (
       <div className="container d-flex justify-content-center align-items-center min-vh-100">
-        <div className="card shadow-lg" style={{ maxWidth: '500px', width: '100%' }}>
+        <div className="card shadow-lg card-max-500">
           <div className="card-body text-center p-5">
             <h4 className="card-title mb-3">No Questions Available</h4>
             <p className="card-text mb-4 text-muted">Unable to load quiz questions at this time.</p>
@@ -398,7 +398,7 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
 
   return (
     <div className="container py-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
+      <div className="d-flex justify-content-between align-items-center mb-4" style={{ '--selected-color': selectedCategory.color }}>
         <button
           className="btn btn-outline-secondary"
           onClick={onBackToCategories}
@@ -406,21 +406,21 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
           ← Back to Categories
         </button>
         <div className="text-center">
-          <h2 className="mb-0" style={{ color: selectedCategory.color }}>
+          <h2 className="mb-0" style={{ color: 'var(--selected-color)' }}>
             {selectedCategory.name} Quiz
           </h2>
           <small className="text-muted">
             Question {currentQuestionIndex + 1} of {quizData.length}
           </small>
         </div>
-        <div style={{ width: '100px' }}></div>
+        <div className="spacer-100" />
       </div>
 
       {/* Progress Bar */}
       <div className="mb-4">
-        <div className="progress" style={{ height: '10px' }}>
+        <div className="progress progress-small">
           <div
-            className="progress-bar bg-primary"
+            className="progress-bar progress-bar-gradient"
             role="progressbar"
             style={{ width: `${progress}%` }}
             aria-valuenow={progress}
@@ -432,55 +432,45 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
 
       {/* Timer Display */}
       <div className="text-center mb-4">
-        <div className="d-inline-flex align-items-center justify-content-center"
-             style={{
-               backgroundColor: timeLeft <= 5 ? '#f8d7da' : '#d1ecf1',
-               border: `3px solid ${timeLeft <= 5 ? '#dc3545' : '#17a2b8'}`,
-               borderRadius: '50%',
-               width: '80px',
-               height: '80px',
-               fontSize: '1.5rem',
-               fontWeight: 'bold',
-               color: timeLeft <= 5 ? '#721c24' : '#0c5460',
-               transition: 'all 0.3s ease'
-             }}>
+        <div className={`d-inline-flex align-items-center justify-content-center timer-circle ${timeLeft <= 5 ? 'timer-warning' : 'timer-normal'}`}>
           {timeLeft}
         </div>
-        <p className="mt-2 mb-0" style={{ color: timeLeft <= 5 ? '#dc3545' : '#6c757d' }}>
+        <p className={`mt-2 mb-0 ${timeLeft <= 5 ? 'timer-text-warning' : 'timer-text-normal'}`}>
           {timeLeft <= 5 ? '⏰ Time running out!' : '⏱️ Time remaining'}
         </p>
       </div>
 
       {/* Lifelines */}
       <div className="text-center mb-4">
-        <div className="d-flex justify-content-center gap-3">
+        <div className="d-flex justify-content-center gap-3 lifelines">
           <button
-            className={`btn ${lifelines.fiftyFifty ? 'btn-warning' : 'btn-secondary'}`}
+            className={`btn lifeline-btn ${lifelines.fiftyFifty ? 'btn-warning lifeline-available' : 'btn-secondary'} ${!lifelines.fiftyFifty ? 'disabled' : ''}`}
             onClick={handleFiftyFifty}
             disabled={!lifelines.fiftyFifty || showResult}
-            style={{ minWidth: '100px' }}
+            aria-pressed={!lifelines.fiftyFifty}
+            aria-label="Use 50/50 lifeline"
           >
             50/50
           </button>
           <button
-            className={`btn ${lifelines.skip ? 'btn-info' : 'btn-secondary'}`}
+            className={`btn lifeline-btn ${lifelines.skip ? 'btn-info lifeline-available' : 'btn-secondary'} ${!lifelines.skip ? 'disabled' : ''}`}
             onClick={handleSkip}
             disabled={!lifelines.skip || showResult}
-            style={{ minWidth: '100px' }}
+            aria-label="Skip question"
           >
             Skip
           </button>
           <button
-            className={`btn ${lifelines.hint ? 'btn-success' : 'btn-secondary'}`}
+            className={`btn lifeline-btn ${lifelines.hint ? 'btn-success lifeline-available' : 'btn-secondary'} ${!lifelines.hint ? 'disabled' : ''}`}
             onClick={handleHint}
             disabled={!lifelines.hint || showResult}
-            style={{ minWidth: '100px' }}
+            aria-label="Show hint"
           >
             Hint
           </button>
         </div>
         {hintText && (
-          <div className="mt-2 alert alert-info" style={{ display: 'inline-block' }}>
+          <div className="mt-2 alert alert-info hint-alert" role="status">
             💡 {hintText}
           </div>
         )}
@@ -495,18 +485,25 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
         hiddenOptions={hiddenOptions}
       />
 
+      {showResult && (
+        <div aria-live="polite" className="sr-only">
+          {selectedAnswer === currentQuestion.correctAnswer ? 'Correct answer selected.' : `Incorrect. Correct answer is ${String.fromCharCode(65 + currentQuestion.correctAnswer)}.`}
+        </div>
+      )}
+
 
 
       {/* Next Button */}
-      <div className="text-center">
+      <div className="text-center mb-4">
         {showResult && (
-          <button
-            className="btn btn-primary btn-lg px-5 py-3"
-            onClick={handleNextQuestion}
-            style={{ borderRadius: '50px', fontSize: '1.1rem' }}
-          >
-            {currentQuestionIndex === quizData.length - 1 ? 'View Results' : 'Next Question'} →
-          </button>
+          <div className="bottom-actions py-2">
+            <button
+              className="btn btn-primary btn-lg btn-pill start-btn"
+              onClick={handleNextQuestion}
+            >
+              {currentQuestionIndex === quizData.length - 1 ? 'View Results' : 'Next Question'} →
+            </button>
+          </div>
         )}
       </div>
     </div>

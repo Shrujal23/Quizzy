@@ -1,86 +1,122 @@
-# Quizzy
+# Quizzy — Computer Science Quiz App
 
-A modern, interactive quiz application built with React that allows users to test their knowledge across various categories.
+A modern, polished quiz application built with React. Designed for fast, focused quizzes that are ideal for learning, practice, and showcasing in a frontend portfolio.
 
-## Features
+---
 
-- **Multiple Categories**: Choose from Computer Science, General Knowledge, History, Science & Nature, Sports, and Geography
-- **Dynamic Questions**: Fetches real-time questions from the Open Trivia Database API
-- **Fallback System**: Includes local fallback questions if the API is unavailable
-- **Responsive Design**: Works seamlessly on desktop and mobile devices
-- **Scoring System**: Tracks correct answers and displays final scores
-- **Restart Functionality**: Ability to restart the quiz or change categories
+## What I built
 
-## Technologies Used
+Quizzy is a single-page React application that fetches multiple-choice trivia questions and presents a clean, mobile-friendly quiz experience. Features include a category selector, difficulty levels, lifelines (50/50, skip, hint), scoring & achievements, and a leaderboard stored locally for quick demos.
 
-- React 19
-- Bootstrap (for styling)
-- Open Trivia Database API
-- HTML Entity Decoder (he library)
+This project highlights UI/UX attention to detail (typography, micro-interactions, accessible color contrast), component-driven development, and deployment-ready configuration — good material to include on a resume or portfolio.
 
-## Installation
+---
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd quiz
-   ```
+## Demo & Screenshots
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
+- Live demo: (add your deployed URL here)
+- Screenshots: add images to `public/screenshots/` and reference them here for the README.
 
-3. Start the development server:
-   ```bash
-   npm start
-   ```
+---
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+## Key Features
 
-## Usage
+- Clean, responsive UI with improved typography and animations
+- Multiple categories & difficulty settings
+- Real-time question fetching with local fallbacks
+- Lifelines and per-question timer
+- Scorecard with achievements and social sharing
+- Local leaderboard and basic user profile tracking
+- Accessibility improvements: keyboard navigation, focus states, ARIA announcements, and a Dark Mode toggle
 
-1. Select a quiz category from the available options
-2. Answer the multiple-choice questions
-3. View your score at the end of the quiz
-4. Choose to restart the quiz or select a different category
+---
 
-## API
+## Tech Stack
 
-This app uses the [Open Trivia Database](https://opentdb.com/) API to fetch quiz questions. The API provides a wide range of trivia questions across different categories and difficulty levels.
+- React (functional components + hooks)
+- Bootstrap utility classes and custom CSS for polish
+- Open Trivia Database (opentdb.com)
+- Deployed-ready (Vercel/Netlify friendly)
 
-## Project Structure
+---
 
-```
-quiz/
-├── public/
-├── src/
-│   ├── components/
-│   │   ├── CategorySelection.js
-│   │   ├── QuestionCard.js
-│   │   ├── QuizContainerNew.js
-│   │   ├── ScoreCard.js
-│   │   └── StartScreen.js
-│   ├── data/
-│   │   └── quizData.js
-│   ├── App.css
-│   ├── App.js
-│   └── index.js
-├── package.json
-└── README.md
+## Running Locally
+
+1. Clone the repo and install:
+
+```bash
+git clone <repository-url>
+cd quiz
+npm install
 ```
 
-## Available Scripts
+1. Start in development mode:
 
-- `npm start` - Runs the app in development mode
-- `npm test` - Launches the test runner
-- `npm run build` - Builds the app for production
-- `npm run eject` - Ejects from Create React App (irreversible)
+```bash
+npm start
+```
 
-## Contributing
+1. Build for production:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+npm run build
+```
+
+---
+
+## Accessibility & Testing
+
+- ARIA live regions announce results to assistive tech
+- Focus-visible styles and keyboard-friendly controls
+- (Planned) Unit tests using React Testing Library
+
+---
+
+## Storybook (Component Docs)
+
+This project includes Storybook stories for core components to showcase states and aid UI review.
+
+To get Storybook running locally:
+
+1. Install Storybook (this will add the required dev dependencies):
+
+```bash
+npx sb init
+```
+
+1. Start Storybook:
+
+```bash
+npm run storybook
+```
+
+Stories are located in `src/stories/` and include:
+
+- `QuestionCard.stories.js`
+- `ScoreCard.stories.js`
+- `CategorySelection.stories.js`
+
+---
+
+## Deployment
+
+This repo is ready for deployment on Vercel or Netlify. After connecting your repository, ensure `npm run build` succeeds and set the build output directory to `build/`.
+
+---
+
+## Improvements I made (ideal resume bullets)
+
+- Implemented a consistent design system with CSS variables for colors, spacing, and motion
+- Added a professional font (Inter) and refined typographic scale for better hierarchy
+- Improved accessibility: color contrast, focus states, ARIA announcements, and keyboard navigation
+- Polished key interactions (animated card lift, subtle button transitions, progress/score visuals)
+
+---
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+MIT — feel free to use or adapt for demos and portfolios.
+
+---
+
+If you'd like, I can add screenshots, a short GitHub Actions workflow for CI, or prepare a one-click deploy setup (Vercel). Which would you like me to do next?
