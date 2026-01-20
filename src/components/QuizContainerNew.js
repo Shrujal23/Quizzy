@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import QuestionCard from './QuestionCard';
 import ScoreCard from './ScoreCard';
 import he from 'he';
@@ -12,7 +12,6 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizData, setQuizData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [timeLeft, setTimeLeft] = useState(15);
   const [timerActive, setTimerActive] = useState(false);
   const [lifelines, setLifelines] = useState({
@@ -20,7 +19,6 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
     skip: true,
     hint: true
   });
-  const [timeBonus, setTimeBonus] = useState(0);
   const [hiddenOptions, setHiddenOptions] = useState([]);
   const [hintText, setHintText] = useState('');
 
@@ -236,6 +234,18 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
   };
 
   // Timer effect
+  const handleNextQuestion = useCallback(() => {
+    if (currentQuestionIndex < quizData.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setSelectedAnswer(null);
+      setShowResult(false);
+      setHiddenOptions([]);
+      setHintText('');
+    } else {
+      setQuizCompleted(true);
+    }
+  }, [currentQuestionIndex, quizData.length]);
+
   useEffect(() => {
     let interval = null;
 
@@ -257,7 +267,7 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
     }
 
     return () => clearInterval(interval);
-  }, [timerActive, timeLeft, showResult, loading, quizCompleted]);
+  }, [timerActive, timeLeft, showResult, loading, quizCompleted, handleNextQuestion]);
 
   // Reset timer when moving to new question
   useEffect(() => {
@@ -281,18 +291,6 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
 
     if (answerIndex === currentQuestion.correctAnswer) {
       setScore(score + 1);
-    }
-  };
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < quizData.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer(null);
-      setShowResult(false);
-      setHiddenOptions([]);
-      setHintText('');
-    } else {
-      setQuizCompleted(true);
     }
   };
 
@@ -344,26 +342,6 @@ const QuizContainer = ({ selectedCategory, selectedDifficulty, onBackToCategorie
             <span className="visually-hidden">Loading...</span>
           </div>
           <h4 className="text-muted">Loading {selectedCategory.name} Questions...</h4>
-        </div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="container d-flex justify-content-center align-items-center min-vh-100">
-        <div className="card shadow-lg card-max-500">
-          <div className="card-body text-center p-5">
-            <h4 className="card-title mb-3 text-danger">Error Loading Questions</h4>
-            <p className="card-text mb-4 text-muted">{error}</p>
-            <button
-              className="btn btn-primary"
-              onClick={handleRestart}
-            >
-              Try Again
-            </button>
-          </div>
         </div>
       </div>
     );
