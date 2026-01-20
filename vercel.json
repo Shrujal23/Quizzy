@@ -1,5 +1,8 @@
 {
-  "buildCommand": "npm install && npm run build",
+  "buildCommand": "npm ci && npm run build",
   "outputDirectory": "build",
-  "nodeVersion": "18.x"
+  "nodeVersion": "18.x",
+  "env": {
+    "CI": "true"
+  }
 }
